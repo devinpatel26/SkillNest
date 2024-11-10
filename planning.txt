@@ -1,0 +1,22 @@
+- COURSES
+    - Title
+    - Description
+    - Thumbnail
+    - Access
+        - Anyone
+        - Email Required 
+        - Purschase Required 
+        - User Required 
+    - Status 
+        - Published
+        - Coming Soon 
+        - Draft 
+    - Lessons
+        - Title 
+        - Description
+        - Video 
+        - Status 
+            - Published
+            - Coming Soon
+            - Draft
+        
