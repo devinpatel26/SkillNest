@@ -2,6 +2,7 @@ from django import forms
 
 from .css import EMAIL_FIELD_CSS
 # from .models import Email, EmailVerificationEvent
+from .models import Email
 
 from . import css
 
@@ -24,6 +25,7 @@ class EmailForm(forms.Form):
 
     def clean_email(self):
         email = self.cleaned_data.get("email")
-        if email.endswith("gmail.com"):
-            raise forms.ValidationError("We do not accept gmail emails")
+        qs = Email.objects.filter(email=email, active=False)
+        if qs.exists():
+            raise forms.ValidationError("Invalid email! Please verify your email.")
         return email

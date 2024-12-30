@@ -22,6 +22,7 @@ class EmailVerificationEvent(models.Model):
         )
 
     expired = models.BooleanField(default=False)
+    
     expired_at = models.DateTimeField(
         auto_now=False,
         auto_now_add=False,

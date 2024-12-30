@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 from emails.forms import EmailForm
 
-from emails.models import Email
+from emails.models import Email, EmailVerificationEvent
 
 def home_view(request):
     template_name = 'home.html'
@@ -15,7 +15,13 @@ def home_view(request):
     if form.is_valid():
         email_val = form.cleaned_data.get("email")
         emailobj, created = Email.objects.get_or_create(email=email_val)
-        obj = form.save()
+        obj = EmailVerificationEvent.objects.create(
+            parent = emailobj, 
+            email= email_val, 
+            attempts=0
+            ).save(
+        )
+        # obj = form.save()
         print(obj)
         context['form'] = EmailForm()
         context['message'] = "Success! Check your email for the confirmation link."
