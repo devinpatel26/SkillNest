@@ -19,4 +19,14 @@
             - Published
             - Coming Soon
             - Draft
+
+
+-Email verification for short-lived Access
+        -views:
+            -collect user email 
+            - verify user email
+                - activate session
+        -models 
+            -Email 
+            -Email verification 
         

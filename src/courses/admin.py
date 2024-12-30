@@ -21,7 +21,7 @@ class LessonInline(admin.StackedInline):
 
     def display_video(self, obj):
         html = helpers.get_cloudinary_video_object(obj, field_name='video', as_html=True, width=600)
-        return format_html(html)
+        return mark_safe(html)
     
     display_video.short_description = 'current video' 
 

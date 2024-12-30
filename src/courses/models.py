@@ -59,7 +59,7 @@ def get_display_name(instance ,*args, **kwargs):
 class Course(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
-    public_id = models.CharField(max_length=255, blank=True, null=True) 
+    public_id = models.CharField(max_length=255, blank=True, null=True, db_index=True) 
     # image = models.ImageField(upload_to=handle_upload, blank=True, null=True)
     image = CloudinaryField('image', blank=True, null=True , 
                             public_id_prefix=get_public_id_prefix , 
@@ -114,7 +114,7 @@ class Lesson(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
-    public_id = models.CharField(max_length=255, blank=True, null=True)
+    public_id = models.CharField(max_length=255, blank=True, null=True,db_index=True)
     thumbnail = CloudinaryField('thumbnail', 
                                 blank=True, 
                                 null=True , 
@@ -144,16 +144,27 @@ class Lesson(models.Model):
             self.public_id = generate_public_id(self)
         super().save(*args, **kwargs)
 
-        
+    
+    def get_absolute_url(self):
+        return self.path
+
     @property
     def path(self):
         course_path = self.course.path
         if course_path.endswith('/'):
             course_path = course_path[:-1]
-
         return f"{self.course.path}/lessons/{self.public_id}"
 
     def get_display_name(self):
         return f"{self.title} - {self.course.get_display_name()}"
+    
+
+    @property
+    def is_coming_soon(self):
+        return self.status == PublishedStatus.COMING_SOON
+    
+    @property
+    def has_video(self):
+        return self.video is not None
     
 
