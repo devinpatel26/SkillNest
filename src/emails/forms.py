@@ -4,7 +4,7 @@ from .css import EMAIL_FIELD_CSS
 # from .models import Email, EmailVerificationEvent
 from .models import Email
 
-from . import css
+from . import css, services
 
 
 class EmailForm(forms.Form):
@@ -24,8 +24,10 @@ class EmailForm(forms.Form):
 
 
     def clean_email(self):
+        """
+        Validates the email input to ensure it's not already active.
+        """
         email = self.cleaned_data.get("email")
-        qs = Email.objects.filter(email=email, active=False)
-        if qs.exists():
+        if services.verify_email(email):
             raise forms.ValidationError("Invalid email! Please verify your email.")
         return email

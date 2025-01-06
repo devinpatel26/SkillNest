@@ -16,6 +16,10 @@ from decouple import config
 
 from decouple import config
 
+# Email settings
+
+BASE_URL = config("BASE_URL", default="http://localhost:8000")
+
 # default backend
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = config("EMAIL_HOST", cast=str, default=None)
@@ -54,8 +58,6 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
-# Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -63,9 +65,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Third-party apps
+    'django_htmx',
+    'tailwind',
+    'theme', # django-tailwind theme app
+    # Internal apps
     'courses',
-    "emails"
+    'emails',
 ]
+TAILWIND_APP_NAME= 'theme' # django-tailwind theme app
+
+NPM_BIN_PATH = '/usr/local/bin/npm' # path to npm binary
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -75,7 +85,15 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django_htmx.middleware.HtmxMiddleware",
 ]
+
+if DEBUG:
+    # django-tailwind theme app
+    INSTALLED_APPS.append("django_browser_reload")
+    MIDDLEWARE.append("django_browser_reload.middleware.BrowserReloadMiddleware")  # Corrected class name
+
+
 
 ROOT_URLCONF = 'cfehome.urls'
 

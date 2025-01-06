@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Email Required to Continue</h1>
+
+<div hx-get="/hx/login/" hx-trigger="load">
+    <!-- HTMX will dynamically load the email login form here -->
+</div>
+{% endblock content %}
