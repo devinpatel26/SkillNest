@@ -57,7 +57,10 @@ SECRET_KEY = 'django-insecure-a)k509s^)22tz+d040(@h64gr7@poo3^g02dlc^mnlr!eu+%1e
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "*", # Allow all hosts
+    'skillnest-pkqt.onrender.com',
+]
 
 
 INSTALLED_APPS = [
