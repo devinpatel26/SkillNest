@@ -10,22 +10,19 @@ from . import services as email_services
 from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
-@csrf_exempt
-def logout_btn_hx_view(request, *args, **kwargs):
+def logout_btn_hx_view(request):
     if not request.htmx:
-        return redirect("/")
+        return redirect('/')
     if request.method == "POST":
         try:
             del request.session['email_id']
-        except KeyError:
+        except:
             pass
-    email_id_in_session = request.session.get('email_id')
-    if email_id_in_session:
-        return render(request, "emails/hx/logout_btn.html", {})
-    else:
-        return HttpResponseClientRedirect("/")
+        email_id_in_session = request.session.get('email_id')
+        if not email_id_in_session:
+            return HttpResponseClientRedirect('/')
     return render(request, "emails/hx/logout_btn.html", {})
-        
+
 
 def email_token_login_view(request, *args, **kwargs):
     if not request.htmx:

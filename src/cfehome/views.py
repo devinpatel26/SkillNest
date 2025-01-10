@@ -6,6 +6,10 @@ from emails import services as emails_services
 
 from emails.models import Email, EmailVerificationEvent
 
+
+def login_logout_template_view(request):
+    return render(request, "auth/login-logout.html", {})
+
 def home_view(request):
     """
     Handles the home page view with email form validation and verification event initiation.

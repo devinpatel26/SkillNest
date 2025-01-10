@@ -9,12 +9,17 @@ from . import services
 
 def courses_list_view(request):
     queryset = services.get_publish_courses()
-    # return JsonResponse({'data': [x.path for x in queryset]})
     context = {
         'object_list': queryset
     }
+    template_name = "courses/list.html"
+    if request.htmx:
+        template_name ="courses/snippets/list-display.html"
+        context['queryset'] = queryset[:2]
     # return JsonResponse({'data': [x.path for x in queryset]})
-    return render(request, 'courses/list.html', context)
+    
+    # return JsonResponse({'data': [x.path for x in queryset]})
+    return render(request,template_name, context)
 
 def courses_detail_view(request, course_id=None, *args, **kwargs):
     course_obj = services.get_course_detail(course_id=course_id)

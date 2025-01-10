@@ -83,6 +83,18 @@ class Course(models.Model):
 
     def get_display_name(self):
         return f"{self.title} - Course"
+    
+    
+    def get_thumbnail(self):
+        if not self.image:
+            return None
+        return helpers.get_cloudinary_image_object(self,field_name='image',width=382, as_html=False)
+    
+
+    def get_display_image(self):
+        if not self.image:
+            return None
+        return helpers.get_cloudinary_image_object(self,field_name='image',width=750, as_html=True)
 
 
     @property
@@ -125,7 +137,8 @@ class Lesson(models.Model):
     video = CloudinaryField('video', 
                             blank=True, 
                             null=True , 
-                            resource_type='video',                                      public_id_prefix=get_public_id_prefix , 
+                            resource_type='video',                                      
+                            public_id_prefix=get_public_id_prefix , 
                             display_name=get_display_name,
                             tags = ['lesson' , 'video'],
                             type='private'
@@ -170,5 +183,13 @@ class Lesson(models.Model):
     @property
     def has_video(self):
         return self.video is not None
+
+    
+    def get_thumbnail(self):
+        width = 382
+        if self.thumbnail:
+            return helpers.get_cloudinary_image_object(self,field_name='thumbnail',width=width, as_html=False)
+        if self.video:
+            return helpers.get_cloudinary_image_object(self,field_name='video',width=width, as_html=False, format='jpg')
     
 

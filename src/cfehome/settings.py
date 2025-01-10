@@ -19,6 +19,7 @@ from decouple import config
 # Email settings
 
 BASE_URL = config("BASE_URL", default="http://localhost:8000")
+NPM_BIN_PATH = 'npm.cmd'
 
 # default backend
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -75,9 +76,15 @@ INSTALLED_APPS = [
 ]
 TAILWIND_APP_NAME= 'theme' # django-tailwind theme app
 
-NPM_BIN_PATH = '/usr/local/bin/npm' # path to npm binary
+INTERNAL_IPS = [
+    "0.0.0.0",
+    "127.0.0.1",
+]
+
+
 
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -162,6 +169,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = LOCAL_CDN / 'media'

@@ -2,18 +2,17 @@
 
 
 {% block title_head  %}
-Course PlatForm- All IN ONE PLACE
+Welcome to Course PlatForm
     {% endblock title_head  %}
 
 
    
 {%block content %}
 
+{% include "base/hero.html" %} 
+
+ <div hx-get="/courses/" hx-trigger="revealed"></div>
 
 
-
-<div hx-get="hx/login/" hx-trigger="load">
-    
-</div>
 
 {% endblock content %}
