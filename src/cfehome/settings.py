@@ -17,6 +17,8 @@ import dj_database_url
 
 from decouple import config
 
+ENVIRONMENT = config('ENVIRONMENT', default='production')
+
 # Email settings
 
 BASE_URL = config("BASE_URL", default="http://localhost:8000")
@@ -52,10 +54,13 @@ TEMPLATES_DIR = BASE_DIR / 'templates'
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-a)k509s^)22tz+d040(@h64gr7@poo3^g02dlc^mnlr!eu+%1e'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if ENVIRONMENT == 'production':
+    DEBUG = False
+else:
+    DEBUG = True
 
 ALLOWED_HOSTS = [
     "*", # Allow all hosts
@@ -88,7 +93,6 @@ INTERNAL_IPS = [
 
 
 MIDDLEWARE = [
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -97,6 +101,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "django_htmx.middleware.HtmxMiddleware",
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 if DEBUG:
