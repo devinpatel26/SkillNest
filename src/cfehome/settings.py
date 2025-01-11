@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
+
 from pathlib import Path
 from decouple import config
 import dj_database_url
@@ -57,10 +59,12 @@ TEMPLATES_DIR = BASE_DIR / 'templates'
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if ENVIRONMENT == 'production':
-    DEBUG = False
-else:
-    DEBUG = True
+# if ENVIRONMENT == 'production':
+#     DEBUG = False
+# else:
+#     DEBUG = True
+DEBUG = False
+
 
 ALLOWED_HOSTS = [
     "*", # Allow all hosts
@@ -198,3 +202,9 @@ CLOUDINARY_PUBLIC_API_KEY = config('CLOUDINARY_PUBLIC_API_KEY', default="")
 CLOUDINARY_API_SECRET = config('CLOUDINARY_API_SECRET', default="")
 
 
+if not DEBUG:
+    # Tell Django to copy static assets into a path called `staticfiles` (this is specific to Render)
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    # Enable the WhiteNoise storage backend, which compresses static files to reduce disk use
+    # and renames the files with unique names for each version to support long-term caching
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
