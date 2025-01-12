@@ -23,7 +23,7 @@ ENVIRONMENT = config('ENVIRONMENT', default='production')
 
 # Email settings
 
-BASE_URL = config("BASE_URL", default="https://course-platform-tdhv.onrender.com")
+BASE_URL = config("BASE_URL", default="http://localhost:8000")
 NPM_BIN_PATH = 'npm.cmd'
 
 # default backend

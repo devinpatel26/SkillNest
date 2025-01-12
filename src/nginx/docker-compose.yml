@@ -1,0 +1,37 @@
+version: "3.9"
+
+services:
+  nginx:
+    image: nginx:1.25
+    container_name: backend_nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx_conf:/etc/nginx/conf.d
+      # - static_volume:/home/ganesha/static
+      # - ../generated_media:/home/ganesha/generated_media
+      # - ../generated_media_test:/home/django_test/generated_media
+      - test_static_volume:/home/django_test/static
+      - test_media_volume:/home/django_test/media
+      # - prod_media_volume:/home/ganesha/media
+      # - /etc/letsencrypt:/etc/letsencrypt
+    networks:
+      # - prod_network
+      - test_network
+
+volumes:
+  # static_volume:
+  #   external: true
+  test_static_volume:
+    external: true
+  test_media_volume:
+    external: true
+  # prod_media_volume:
+  #   external: true
+
+networks:
+  # prod_network:
+  #   external: true
+  test_network:
+    external: true

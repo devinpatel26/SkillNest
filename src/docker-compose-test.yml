@@ -1,0 +1,47 @@
+version: "3.9"
+
+services:
+  test_postgres:
+    container_name: test_postgres
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: test_skillnest
+    expose:
+      - 5432
+    volumes:
+      - test_postgres_data:/var/lib/postgresql/data
+    networks:
+      - test_network
+
+  api_test:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    ports:
+      - "5000:8000"
+    volumes:
+      - test_static_volume:/django/staticfiles
+      - test_media_volume:/django/media-files
+      - ./:/django
+    env_file:
+      - .env.test
+    image: django_app
+    container_name: test_django_app
+    depends_on:
+      - test_postgres
+    networks:
+      - test_network
+    command: /usr/bin/supervisord
+
+volumes:
+  test_postgres_data:
+  test_static_volume:
+    external: true
+  test_media_volume:
+    external: true
+
+networks:
+  test_network:
+    external: true
