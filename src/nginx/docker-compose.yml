@@ -9,29 +9,27 @@ services:
       - "443:443"
     volumes:
       - ./nginx_conf:/etc/nginx/conf.d
-      # - static_volume:/home/ganesha/static
-      # - ../generated_media:/home/ganesha/generated_media
-      # - ../generated_media_test:/home/django_test/generated_media
+      - static_volume:/home/skillnest/static
       - test_static_volume:/home/django_test/static
       - test_media_volume:/home/django_test/media
-      # - prod_media_volume:/home/ganesha/media
-      # - /etc/letsencrypt:/etc/letsencrypt
+      - prod_media_volume:/home/skillnest/media
+      - /etc/letsencrypt:/etc/letsencrypt
     networks:
-      # - prod_network
+      - prod_network
       - test_network
 
 volumes:
-  # static_volume:
-  #   external: true
+  static_volume:
+    external: true
   test_static_volume:
     external: true
   test_media_volume:
     external: true
-  # prod_media_volume:
-  #   external: true
+  prod_media_volume:
+    external: true
 
 networks:
-  # prod_network:
-  #   external: true
+  prod_network:
+    external: true
   test_network:
     external: true
