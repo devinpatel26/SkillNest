@@ -23,7 +23,8 @@ module.exports = {
         // Ignore files in node_modules
         '!../../**/node_modules/**',
         // Include flowbite files
-        "./node_modules/flowbite/**/*.js"
+        "./node_modules/flowbite/**/*.js",
+        '../../**/templates/**/forms.py',
     ],
     theme: {
     extend: {

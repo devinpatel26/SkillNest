@@ -1,14 +1,16 @@
+from django.conf import settings
 from django.contrib import messages
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from .forms import EmailForm
 from django_htmx.http import HttpResponseClientRedirect
 
+from . import services
+
+from .forms import EmailForm
 
 
-from django.http import HttpResponse
-from . import services as email_services
-from django.views.decorators.csrf import csrf_exempt
-# Create your views here.
+EMAIL_HOST_USER = settings.EMAIL_HOST_USER
+
 
 def logout_btn_hx_view(request):
     if not request.htmx:
@@ -21,33 +23,35 @@ def logout_btn_hx_view(request):
         email_id_in_session = request.session.get('email_id')
         if not email_id_in_session:
             return HttpResponseClientRedirect('/')
-    return render(request, "emails/hx/logout_btn.html", {})
+    return render(request, "emails/hx/logout_btn.html", {}) 
 
-
-def email_token_login_view(request, *args, **kwargs):
+def email_token_login_view(request):
     if not request.htmx:
-        return redirect("/")
+        return redirect('/')
     email_id_in_session = request.session.get('email_id')
-    template_name = 'emails/hx/email_form.html'
+    template_name = "emails/hx/form.html"
     form = EmailForm(request.POST or None)
     context = {
-        'form': form,
+        "form": form,
         "message": "",
-        "show_form": not email_id_in_session
+        "show_form": not email_id_in_session,
     }
     if form.is_valid():
-        email_val = form.cleaned_data.get("email")
-        obj = email_services.start_verification_event(email_val)
-        context['form'] = EmailForm()  # Reset the form after successful submission
-        context['message'] = "Success! Check your email for the confirmation link."
+        email_val = form.cleaned_data.get('email')
+        obj = services.start_verification_event(email_val)
+        context['form'] = EmailForm()
+        context['message'] = f"Succcess! Check your email for verification from {EMAIL_HOST_USER}"
+        # return HttpResponseClientRedirect('/check-your-email')
+        return render(request, template_name, context)
     else:
-        print("Form Errors:", form.errors)  # Debugging: Print form errors
-    print("email_id" , request.session.get('email_id'))  # Debugging: Print the session email_id
+        print(form.errors) 
     return render(request, template_name, context)
 
 
+
+
 def verify_email_token_view(request, token, *args, **kwargs):
-    did_verify, msg, email = email_services.verify_token(token)
+    did_verify, msg, email = services.verify_token(token)
     if not did_verify:
         try:
             del request.session['email_id']

@@ -9,13 +9,13 @@ from . import services
 
 def courses_list_view(request):
     queryset = services.get_publish_courses()
+    
     context = {
         'object_list': queryset
     }
     template_name = "courses/list.html"
     if request.htmx:
         template_name ="courses/snippets/list-display.html"
-        context['queryset'] = queryset[:2]
     # return JsonResponse({'data': [x.path for x in queryset]})
     
     # return JsonResponse({'data': [x.path for x in queryset]})

@@ -1,3 +1,4 @@
+
 {% load static tailwind_tags %}
 <!DOCTYPE html>
 <html>
@@ -5,25 +6,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    {% comment %} <link rel="stylesheet" href="{% static 'css/styles.css' %}"> {% endcomment %}
+    {% tailwind_css %}
     {% include 'base/js.html' %}
+
     <title>{% block title_head %}
         Course Platform - All IN ONE PLACE
     {% endblock title_head %}</title>
 </head>
-<body>
+<body  hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
   {% include 'base/navbar.html' %}
 
-  <script>
-    document.addEventListener("htmx:configRequest", function(event) {
-        event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
-    });
-  </script>
-
-  <div class="{% if '/logout' in request.path or '/login' in request.path %}
-  {% else %}
-      px-4 mx-auto max-w-screen-xl
-  {% endif %}">
+  <div class="{% if '/logout' in request.path or '/login' in request.path %}special-class{% else %}px-4 mx-auto max-w-screen-xl{% endif %}">
     {% block content %}
     {% endblock content %}
   </div>

@@ -22,6 +22,7 @@ services:
     ports:
       - "5000:8000"
     volumes:
+      - ./log:/var/log
       - test_static_volume:/django/staticfiles
       - test_media_volume:/django/media-files
       - ./:/django

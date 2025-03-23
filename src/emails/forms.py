@@ -20,7 +20,7 @@ class EmailForm(forms.Form):
 
     # class Meta:
     #     model = EmailVerificationEvent
-    #     fields = ['email']
+    #     fields = ['email']    
 
 
     def clean_email(self):

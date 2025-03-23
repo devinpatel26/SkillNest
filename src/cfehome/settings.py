@@ -17,7 +17,6 @@ from decouple import config
 import dj_database_url
 
 
-from decouple import config
 
 ENVIRONMENT = config('ENVIRONMENT', default='production')
 
@@ -63,12 +62,13 @@ SECRET_KEY = config('SECRET_KEY')
 #     DEBUG = False
 # else:
 #     DEBUG = True
-DEBUG = False
+DEBUG = True
 
 
 ALLOWED_HOSTS = [
     "*", # Allow all hosts
     'skillnest-pkqt.onrender.com',
+    
 ]
 
 
