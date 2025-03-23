@@ -106,7 +106,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "django_htmx.middleware.HtmxMiddleware",
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.storage.CompressedManifestStaticFilesStorage'
 ]
+
 
 
 
