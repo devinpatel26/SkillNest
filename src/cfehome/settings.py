@@ -177,20 +177,39 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+# -------------------------------
+# STATIC & MEDIA FILES
+# -------------------------------
+STATIC_URL = '/static/'
+# Convert Path object to string to ensure a filesystem path is used.
+STATIC_ROOT = str(BASE_DIR / 'staticfiles')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = str(LOCAL_CDN / 'media')
 
-# STATIC_ROOT = BASE_DIR / 'staticfiles'
-MEDIA_URL = 'media/'
-MEDIA_ROOT = LOCAL_CDN / 'media'
+# Use WhiteNoise's storage backend for compression and caching
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# -------------------------------
+# DEFAULT PRIMARY KEY FIELD
+# -------------------------------
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# # Static files (CSS, JavaScript, Images)
+# # https://docs.djangoproject.com/en/5.1/howto/static-files/
+
+# STATIC_URL = 'static/'
+
+# # STATIC_ROOT = BASE_DIR / 'staticfiles'
+# MEDIA_URL = 'media/'
+# MEDIA_ROOT = LOCAL_CDN / 'media'
 
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # Cloudinary settings
@@ -199,9 +218,9 @@ CLOUDINARY_PUBLIC_API_KEY = config('CLOUDINARY_PUBLIC_API_KEY', default="")
 CLOUDINARY_API_SECRET = config('CLOUDINARY_API_SECRET', default="")
 
 
-# STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Correct way
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# # STATIC_URL = 'static/'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Correct way
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # if DEBUG:
 #     # Tell Django to copy static assets into a path called `staticfiles` (this is specific to Render)
