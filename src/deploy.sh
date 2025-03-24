@@ -5,9 +5,6 @@ echo "🚀 Starting Django Deployment on Render..."
 # Exit on any error
 set -e  
 
-echo "🔹 Activating Virtual Environment..."
-source venv/bin/activate  # Adjust if using a different virtual environment path
-
 echo "🔹 Installing Dependencies..."
 pip install -r requirements.txt
 
