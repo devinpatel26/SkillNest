@@ -12,7 +12,7 @@ echo "🔹 Running Migrations..."
 python manage.py migrate --noinput
 
 echo "🔹 Collecting Static Files..."
-python manage.py collectstatic
+python manage.py collectstatic --noinput
 
 echo "🔹 Restarting Gunicorn..."
 pkill -f gunicorn || true  # Kill existing Gunicorn processes (if any)
