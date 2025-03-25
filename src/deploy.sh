@@ -16,6 +16,7 @@ python manage.py collectstatic --noinput
 
 echo "🔹 Restarting Gunicorn..."
 pkill -f gunicorn || true  # Kill existing Gunicorn processes (if any)
-gunicorn --workers=3 --bind=0.0.0.0:8000 cfehome.wsgi:application &
+gunicorn cfehome.wsgi:application --bind 0.0.0.0:8000
+&
 
 echo "✅ Deployment Completed Successfully!"
