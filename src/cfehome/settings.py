@@ -24,7 +24,7 @@ DEBUG = False
 
 # Email settings
 
-BASE_URL = config("BASE_URL", default="http://localhost:8000")
+BASE_URL = config("BASE_URL", default="https://skillnest-tnyq.onrender.com")
 NPM_BIN_PATH = 'npm.cmd'
 
 # default backend
@@ -182,7 +182,7 @@ USE_TZ = True
 # STATIC & MEDIA FILES
 # -------------------------------
 STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = str(LOCAL_CDN / 'media')
@@ -193,6 +193,7 @@ STORAGES = {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
+WHITENOISE_USE_FINDERS = True
 
 # -------------------------------
 # DEFAULT PRIMARY KEY FIELD
