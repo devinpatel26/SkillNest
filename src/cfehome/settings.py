@@ -195,12 +195,10 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static',    
 ]
 
-STORAGES = {
-    # You can keep other storage settings here if needed
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}
+
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
+
 
 # -------------------------------
 # DEFAULT PRIMARY KEY FIELD
