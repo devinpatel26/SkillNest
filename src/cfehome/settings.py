@@ -18,7 +18,9 @@ import dj_database_url
 
 
 
-ENVIRONMENT = config('ENVIRONMENT', default='production')
+ENVIRONMENT = "production" # development, production, staging
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = False
 
 # Email settings
 
@@ -58,11 +60,10 @@ TEMPLATES_DIR = BASE_DIR / 'templates'
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# if ENVIRONMENT == 'production':
-#     DEBUG = False
-# else:
-#     DEBUG = True
-DEBUG = config('DEBUG', default=False, cast=bool)
+if ENVIRONMENT == 'production':
+    DEBUG = False
+else:
+    DEBUG = True
 
 
 ALLOWED_HOSTS = [
@@ -70,7 +71,6 @@ ALLOWED_HOSTS = [
     'skillnest-pkqt.onrender.com',
     
 ]
-
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -98,6 +98,7 @@ INTERNAL_IPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -105,7 +106,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "django_htmx.middleware.HtmxMiddleware",
-    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 
@@ -181,50 +181,28 @@ USE_TZ = True
 # -------------------------------
 # STATIC & MEDIA FILES
 # -------------------------------
-STATIC_URL = '/static/'
-# Convert Path object to string to ensure a filesystem path is used.
-STATIC_ROOT = str(BASE_DIR / 'staticfiles')
+STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = str(LOCAL_CDN / 'media')
 
-# Use WhiteNoise's storage backend for compression and caching
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STORAGES = {
+    # You can keep other storage settings here if needed
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 # -------------------------------
 # DEFAULT PRIMARY KEY FIELD
 # -------------------------------
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-# # Static files (CSS, JavaScript, Images)
-# # https://docs.djangoproject.com/en/5.1/howto/static-files/
-
-# STATIC_URL = 'static/'
-
-# # STATIC_ROOT = BASE_DIR / 'staticfiles'
-# MEDIA_URL = 'media/'
-# MEDIA_ROOT = LOCAL_CDN / 'media'
-
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
-
-# DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
 # Cloudinary settings
 CLOUDINARY_CLOUD_NAME = config('CLOUDINARY_CLOUD_NAME', default="")
 CLOUDINARY_PUBLIC_API_KEY = config('CLOUDINARY_PUBLIC_API_KEY', default="")
 CLOUDINARY_API_SECRET = config('CLOUDINARY_API_SECRET', default="")
-
-
-# # STATIC_URL = 'static/'
-# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Correct way
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-# if DEBUG:
-#     # Tell Django to copy static assets into a path called `staticfiles` (this is specific to Render)
-#     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-#     # Enable the WhiteNoise storage backend, which compresses static files to reduce disk use
-#     # and renames the files with unique names for each version to support long-term caching
-#     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
