@@ -178,14 +178,18 @@ USE_TZ = True
 
 
 
-# -------------------------------
-# STATIC & MEDIA FILES
-# -------------------------------
+# Correct static files paths
 STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # Correct static root
+print("STATIC_ROOT", STATIC_ROOT)
+WHITENOISE_MANIFEST_STRICT = False
+
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = str(LOCAL_CDN / 'media')
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',    
+]
 
 STORAGES = {
     # You can keep other storage settings here if needed
@@ -193,7 +197,6 @@ STORAGES = {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
-WHITENOISE_USE_FINDERS = True
 
 # -------------------------------
 # DEFAULT PRIMARY KEY FIELD
