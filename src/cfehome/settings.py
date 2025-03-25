@@ -184,6 +184,10 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'  # Correct static root
 print("STATIC_ROOT", STATIC_ROOT)
 WHITENOISE_MANIFEST_STRICT = False
 
+STATICFILES_DIRS = [
+    BASE_DIR / "static",  # Default static directory
+    BASE_DIR / "theme/static",  # Tailwind/theme static files
+]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = str(LOCAL_CDN / 'media')
