@@ -182,10 +182,7 @@ USE_TZ = True
 # STATIC & MEDIA FILES
 # -------------------------------
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [
-    BASE_DIR / 'static',  # Ensure this is the folder where your source files (like css/dist/styles.css) are located
-]
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = str(LOCAL_CDN / 'media')
