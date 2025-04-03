@@ -1,6 +1,8 @@
 # System Files
 .DS_Store
 
+.env.prod
+.env.test
 # Local CDN (if needed)
 local-cdn/media/
 
@@ -148,10 +150,8 @@ dmypy.json
 # Cython
 cython_debug/
 
-# Docker
-.dockerignore
-docker-compose-prod.yml
-docker-compose-test.yml
+
+
 
 # Render Deployment
 render.yaml

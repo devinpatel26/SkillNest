@@ -22,7 +22,7 @@ services:
       context: .
       dockerfile: Dockerfile.prod
     ports:
-      - "8000:8000"ignore
+      - "8000:8000"
     volumes:
       - ./:/home/skillnest
     env_file:
