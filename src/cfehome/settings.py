@@ -18,14 +18,15 @@ import dj_database_url
 
 
 
-ENVIRONMENT = "production" # development, production, staging
+ENVIRONMENT = "development" # development, production, staging
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
 # Email settings
 
-BASE_URL = config("BASE_URL", default="https://skillnest-tnyq.onrender.com")
-NPM_BIN_PATH = 'npm.cmd'
+BASE_URL = config("BASE_URL", default="http://localhost:8000")
+NPM_BIN_PATH = 'np' \
+'m.cmd'
 
 # default backend
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -196,7 +197,7 @@ STATICFILES_DIRS = [
 ]
 
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # STATICFILES_STORAGE = "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
 
 

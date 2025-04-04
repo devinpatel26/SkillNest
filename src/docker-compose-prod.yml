@@ -1,37 +1,23 @@
 version: "3.9"
 
 services:
-  nginx:
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile.nginx
-    container_name: backend_nginx
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx_conf:/etc/nginx/conf.d  
-      - ./staticfiles:/home/django_test/static   # Bind-mount the host's staticfiles directory
-      - ./mediafiles:/home/django_test/media       # Bind-mount the host's mediafiles directory (if needed)
-      - /etc/letsencrypt:/etc/letsencrypt
-    networks:
-      - prod_network
-
   api:
     build:
       context: .
       dockerfile: Dockerfile.prod
     ports:
-      - "8000:8000"
+      - "8000:8000"  # Use $PORT if set, else default to 8000
     volumes:
       - ./:/home/skillnest
     env_file:
       - .env.prod
+    environment:
+      - PORT=8000  # Default for local testing
     image: django_app
     container_name: django_app
     networks:
       - prod_network
-    command: /usr/bin/supervisord
+    command: python manage.py runserver 0.0.0:8000
 
 networks:
   prod_network:

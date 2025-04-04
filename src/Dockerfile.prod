@@ -1,15 +1,28 @@
+# Use the official Python image
 FROM python:3.12
 
-ENV PYTHONUNBUFFERED = 1
+# Ensure Python output is not buffered
+ENV PYTHONUNBUFFERED=1
+ENV PORT=8000   
 
-RUN apt-get update && apt-get install supervisor -y
+# Install dependencies
+RUN apt-get update && apt-get install -y supervisor
 
+# Set working directory
 WORKDIR /home/skillnest
 
+# Install Python dependencies
 COPY ./requirements.txt .
+RUN pip install -r requirements.txt gunicorn whitenoise
 
-RUN pip3 install -r requirements.txt
-
+# Copy supervisor config
 COPY ./supervisor.conf /etc/supervisor/conf.d/
 
+# Copy app code
 COPY . .
+
+# Collect static files (build-time collection)
+RUN python manage.py collectstatic --noinput
+
+# Start Supervisor (will handle runtime commands)
+CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisor.conf"]
