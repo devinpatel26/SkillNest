@@ -1,7 +1,7 @@
 # SkillNest Course Platform
 
 <p align="center">
-  <img src="/src/skillnest.png" alt="SkillNest Logo" style="max-width: 3rem;">
+    <img src="/src/skillnest.png" alt="SkillNest Logo" height="48" width="48">
   <br>
   <strong>A scalable online course management platform built with Django</strong>
 </p>
