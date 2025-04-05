@@ -1,6 +1,23 @@
 version: "3.9"
 
 services:
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile.nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx_conf:/etc/nginx/conf.d
+      - ./staticfiles:/home/django_test/static
+      - ./mediafiles:/home/django_test/media
+      - /etc/letsencrypt:/etc/letsencrypt
+    depends_on:
+      - api
+    networks:
+      - prod_network
+
   api:
     build:
       context: .
@@ -17,7 +34,7 @@ services:
     container_name: django_app
     networks:
       - prod_network
-    command: python manage.py runserver 0.0.0:8000
+    command: /usr/bin/supervisord
 
 networks:
   prod_network:
